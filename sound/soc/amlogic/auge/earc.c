@@ -491,15 +491,16 @@ static irqreturn_t earc_rx_isr(int irq, void *data)
 		if (p_earc->rx_status0 & INT_EARCRX_CMDC_HB_STATUS)
 			dev_dbg(p_earc->dev, "EARCRX_CMDC_HB_STATUS\n");
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_C_FIND_PAPB)
-			dev_dbg(p_earc->dev, "ARCRX_C_FIND_PAPB\n");
+			dev_info(p_earc->dev, "ARCRX_C_FIND_PAPB\n");
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_C_VALID_CHANGE)
-			dev_dbg(p_earc->dev, "ARCRX_C_VALID_CHANGE\n");
+			dev_info(p_earc->dev, "ARCRX_C_VALID_CHANGE\n");
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_C_FIND_NONPCM2PCM)
-			dev_dbg(p_earc->dev, "ARCRX_C_FIND_NONPCM2PCM\n");
+			dev_info(p_earc->dev, "ARCRX_C_FIND_NONPCM2PCM\n");
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_C_PCPD_CHANGE)
-			dev_dbg(p_earc->dev, "ARCRX_C_PCPD_CHANGE\n");
+			dev_info(p_earc->dev, "ARCRX_C_PCPD_CHANGE\n");
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_C_CH_STATUS_CHANGE) {
 			int mute = earcrx_get_cs_mute(p_earc->rx_dmac_map);
+			dev_info(p_earc->dev, "INT_ARCRX_BIPHASE_DECODE_C_CH_STATUS_CHANGE mute:%i\n", mute);
 
 			if (p_earc->rx_cs_mute != mute) {
 				p_earc->rx_cs_mute = mute;
@@ -508,7 +509,7 @@ static irqreturn_t earc_rx_isr(int irq, void *data)
 			}
 		}
 		if (p_earc->rx_status1 & INT_ARCRX_BIPHASE_DECODE_I_SAMPLE_MODE_CHANGE)
-			dev_dbg(p_earc->dev, "ARCRX_I_SAMPLE_MODE_CHANGE\n");
+			dev_info(p_earc->dev, "ARCRX_I_SAMPLE_MODE_CHANGE\n");
 		if (p_earc->chipinfo->rx_dmac_sync_int &&
 		    p_earc->rx_status1 & INT_EARCRX_DMAC_VALID_AUTO_NEG_INT_SET) {
 			earcrx_dmac_sync_int_enable(p_earc->rx_top_map, 0);
