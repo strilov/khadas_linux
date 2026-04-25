@@ -650,6 +650,7 @@ int adc_set_filter_ctrl(bool on, enum filter_sel module_sel, void *data);
 #else
 static inline void adc_set_pll_reset(void)
 {
+	return 0;
 }
 
 static inline int adc_get_pll_flag(void)

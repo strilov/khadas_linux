@@ -3671,7 +3671,10 @@ void hdmirx_hw_config(void)
 	/* hdmi reset will cause cec not working*/
 	/* cec modult need reset */
 	if (rx.chip_id <= CHIP_ID_TXL)
-		cec_hw_reset(1);
+	{
+		//cec_hw_reset(1);
+		rx_pr("FIXME: skipping cec_hw_reset!\n");
+	}
 	pre_port = 0xff;
 }
 
