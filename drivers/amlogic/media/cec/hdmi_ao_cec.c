@@ -85,6 +85,7 @@ static void cec_stored_msg_push(void);
 static int hdmitx_notify_callback(struct notifier_block *block,
 				  unsigned long cmd, void *para)
 {
+	/*
 	int ret = 0;
 
 	switch (cmd) {
@@ -101,6 +102,10 @@ static int hdmitx_notify_callback(struct notifier_block *block,
 		break;
 	}
 	return ret;
+	*/
+	queue_delayed_work(cec_dev->hdmi_plug_wq, &cec_dev->work_hdmi_plug, 0);
+
+	return 0;
 }
 
 static struct notifier_block hdmitx_notifier_nb = {
