@@ -3065,9 +3065,9 @@ static struct platform_driver aml_aocec_driver = {
 int __init cec_init(void)
 {
 	int ret;
-
+	CEC_INFO("cec init - std v\n");
 	ret = platform_driver_register(&aml_aocec_driver);
-
+	CEC_INFO("cec plat drv reg\n");
 	return ret;
 }
 
