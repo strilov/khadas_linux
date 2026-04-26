@@ -96,6 +96,22 @@ static int hdmitx_notify_callback(struct notifier_block *block,
 				   &cec_dev->work_hdmi_plug, 0);
 		ret = NOTIFY_OK;
 		break;
+	case HDMITX_PHY_ADDR_VALID:
+		CEC_INFO("[%s] event: %ld\n", __func__, cmd);
+		unsigned int addr=5;
+		CEC_INFO("[%s] setting log addr to %u\n", __func__, addr);
+		cec_dev->cec_info.addr_enable |= (1 << (addr & 0xf));
+		if (cec_dev->cec_num > ENABLE_ONE_CEC)
+		{
+			cec_logicaddr_add(CEC_B, addr);
+			CEC_INFO("[%s] setting log addr for B\n", __func__);
+		}
+		else
+		{
+			cec_logicaddr_add(ee_cec, addr);
+			CEC_INFO("[%s] setting log addr for ee cec\n", __func__);
+		}
+		cec_dev->cec_info.log_addr = addr;
 	default:
 		CEC_ERR("[%s] unsupported notify:%ld\n", __func__, cmd);
 		ret = NOTIFY_DONE;
@@ -2288,9 +2304,11 @@ static void cec_hdmi_plug_handler(struct work_struct *work)
 
 #if (defined(CONFIG_AMLOGIC_HDMITX) || defined(CONFIG_AMLOGIC_HDMITX21))
 	tmp |= (get_hpd_state() << 4);
+	CEC_INFO("hdmi ao cec plug handle for hdmi tx\n");
 #endif
 #ifdef CONFIG_AMLOGIC_MEDIA_TVIN_HDMI
 	tmp |= (hdmirx_get_connect_info() & 0xF);
+	CEC_INFO("hdmi ao cec plug handle for hdmi tx\n");
 #endif
 
 	cec_set_uevent(HDMI_PLUG_EVENT, tmp);
