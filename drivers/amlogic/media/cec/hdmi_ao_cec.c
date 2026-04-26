@@ -112,6 +112,7 @@ static int hdmitx_notify_callback(struct notifier_block *block,
 			CEC_INFO("[%s] setting log addr for ee cec\n", __func__);
 		}
 		cec_dev->cec_info.log_addr = addr;
+		break;
 	default:
 		CEC_ERR("[%s] unsupported notify:%ld\n", __func__, cmd);
 		ret = NOTIFY_DONE;
