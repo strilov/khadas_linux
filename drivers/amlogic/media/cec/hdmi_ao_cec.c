@@ -97,21 +97,22 @@ static int hdmitx_notify_callback(struct notifier_block *block,
 		ret = NOTIFY_OK;
 		break;
 	case HDMITX_PHY_ADDR_VALID:
-		CEC_INFO("[%s] event: %ld\n", __func__, cmd);
-		unsigned int addr=5;
-		CEC_INFO("[%s] setting log addr to %u\n", __func__, addr);
-		cec_dev->cec_info.addr_enable |= (1 << (addr & 0xf));
-		if (cec_dev->cec_num > ENABLE_ONE_CEC)
-		{
-			cec_logicaddr_add(CEC_B, addr);
-			CEC_INFO("[%s] setting log addr for B\n", __func__);
-		}
-		else
-		{
-			cec_logicaddr_add(ee_cec, addr);
-			CEC_INFO("[%s] setting log addr for ee cec\n", __func__);
-		}
-		cec_dev->cec_info.log_addr = addr;
+		CEC_INFO("[%s] event: %ld log addr %u\n", __func__, cmd, cec_dev->cec_info.log_addr);
+		//unsigned int addr=5;
+		//CEC_INFO("[%s] setting log addr to %u\n", __func__, addr);
+		//cec_dev->cec_info.addr_enable |= (1 << (addr & 0xf));
+		//if (cec_dev->cec_num > ENABLE_ONE_CEC)
+		//{
+		//	cec_logicaddr_add(CEC_B, addr);
+		//	CEC_INFO("[%s] setting log addr for B\n", __func__);
+		//}
+		//else
+		//{
+		//	cec_logicaddr_add(ee_cec, addr);
+		//	CEC_INFO("[%s] setting log addr for ee cec\n", __func__);
+		//}
+		//cec_dev->cec_info.log_addr = addr;
+		ret = NOTIFY_OK;
 		break;
 	default:
 		CEC_ERR("[%s] unsupported notify:%ld\n", __func__, cmd);
@@ -2274,9 +2275,10 @@ static const struct of_device_id aml_cec_dt_match[] = {
 static void cec_node_val_init(void)
 {
 	/* initial main logical address */
-	cec_dev->cec_info.log_addr = 0;
+	cec_dev->cec_info.log_addr = 5;
+	cec_dev->cec_info.addr_enable |= (1 << 5);
 	/* all logical address disable */
-	cec_dev->cec_info.addr_enable = 0;
+	//cec_dev->cec_info.addr_enable = 0;
 	cec_dev->cec_info.open_count.counter = 0;
 }
 
