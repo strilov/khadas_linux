@@ -392,7 +392,13 @@ static void set_vsdb_phy_addr(struct hdmitx_dev *hdev,
 		   ((vsdb->d & 0xf) << 0);
 	hdev->physical_addr = phy_addr;
 	if (hdev->tv_usage == 0)
+	{
 		hdmitx21_event_notify(HDMITX_PHY_ADDR_VALID, &phy_addr);
+		pr_info("hdmitx: edid: notify phy adr  %d\n", __func__,
+			phy_addr);
+	}
+	pr_info("hdmitx: edid: phy adr, a b c d  %d, %d %d %d %d\n", __func__,
+			phy_addr, vsdb->a, vsdb->b, vsdb->c, vsdb->d);
 }
 
 static void set_vsdb_dc_cap(struct rx_cap *prxcap)
