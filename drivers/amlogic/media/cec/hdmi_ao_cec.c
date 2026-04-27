@@ -85,19 +85,19 @@ static void cec_stored_msg_push(void);
 static int hdmitx_notify_callback(struct notifier_block *block,
 				  unsigned long cmd, void *para)
 {
-	CEC_INFO("[%s] tx notify: %lu\n", __func__, cmd);
+	CEC_ERR("[%s] tx notify: %lu\n", __func__, cmd);
 	int ret = 0;
 
 	switch (cmd) {
 	case HDMITX_PLUG:
 	case HDMITX_UNPLUG:
-		CEC_INFO("[%s] event: %ld\n", __func__, cmd);
+		CEC_ERR("[%s] event: %ld\n", __func__, cmd);
 		queue_delayed_work(cec_dev->hdmi_plug_wq,
 				   &cec_dev->work_hdmi_plug, 0);
 		ret = NOTIFY_OK;
 		break;
-	//case HDMITX_PHY_ADDR_VALID:
-	//	CEC_INFO("[%s] event: %ld log addr %u\n", __func__, cmd, cec_dev->cec_info.log_addr);
+	case HDMITX_PHY_ADDR_VALID:
+		CEC_ERR("[%s] event: %ld log addr %u\n", __func__, cmd, cec_dev->cec_info.log_addr);
 		//unsigned int addr=5;
 		//CEC_INFO("[%s] setting log addr to %u\n", __func__, addr);
 		//cec_dev->cec_info.addr_enable |= (1 << (addr & 0xf));
@@ -112,8 +112,8 @@ static int hdmitx_notify_callback(struct notifier_block *block,
 		//	CEC_INFO("[%s] setting log addr for ee cec\n", __func__);
 		//}
 		//cec_dev->cec_info.log_addr = addr;
-	//	ret = NOTIFY_DONE;
-	//	break;
+		ret = NOTIFY_DONE;
+		break;
 	default:
 		CEC_ERR("[%s] unsupported notify:%ld\n", __func__, cmd);
 		ret = NOTIFY_DONE;
